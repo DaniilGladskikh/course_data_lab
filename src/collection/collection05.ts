@@ -3,5 +3,14 @@
 */
 
 export function* range(from: number, to: number) {
-
+	// Генератор возвращает числа в диапазоне от from до to включительно
+	if (from <= to) {
+		for (let i = from; i <= to; i++) {
+			yield i;
+		}
+	} else {
+		for (let i = from; i >= to; i--) {
+			yield i;
+		}
+	}
 }
