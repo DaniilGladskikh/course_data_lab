@@ -28,5 +28,9 @@ export interface User {
 }
 
 export function getAllUserEmails(xmlDoc: Document): string[] {
-
+	// Находим все элементы <email> в документе
+	const emailElements = xmlDoc.getElementsByTagName('email');
+	
+	// Преобразуем NodeList в массив и извлекаем текстовое содержимое
+	return Array.from(emailElements).map(element => element.textContent || '');
 }
