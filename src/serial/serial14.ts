@@ -35,4 +35,12 @@ export interface UserWithRole {
 }
 
 export function findUsersWithRole(xmlDoc: Document, targetRole: string): Element[] {
+	// Получаем массив всех элементов <user>
+	const users = Array.from(xmlDoc.getElementsByTagName('user'));
+	
+	// Фильтруем пользователей, у которых есть хотя бы одна роль, совпадающая с искомой
+	return users.filter(user => {
+		const roles = Array.from(user.getElementsByTagName('role'));
+		return roles.some(role => role.textContent === targetRole);
+	});
 }
