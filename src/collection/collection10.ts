@@ -4,6 +4,9 @@
 
 export function invertMap<K, V>(map: Map<K, V>): Map<V, K> {
 	const newMap = new Map<V, K>();
-
+	// Меняем местами ключи и значения
+	for (const [key, value] of map) {
+		newMap.set(value, key);
+	}
 	return newMap;
 }
