@@ -21,5 +21,13 @@ export interface OrderWithPrices {
 }
 
 export function calculateOrderTotal(xmlDoc: Document): number {
-
+	// Находим все элементы <item>
+	const items = xmlDoc.getElementsByTagName('item');
+	
+	// Используем reduce для вычисления общей стоимости
+	return Array.from(items).reduce((total, item) => {
+		const price = parseFloat(item.getAttribute('price') || '0');
+		const quantity = parseFloat(item.getAttribute('quantity') || '0');
+		return total + (price * quantity);
+	}, 0);
 }
