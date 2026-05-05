@@ -30,5 +30,9 @@ export interface OrderItem {
 }
 
 export function findOrdersByStatus(xmlDoc: Document, status: string): Element[] {
-
+	// Находим все элементы <order>
+	const orders = xmlDoc.getElementsByTagName('order');
+	
+	// Фильтруем заказы по атрибуту 'status'
+	return Array.from(orders).filter(order => order.getAttribute('status') === status);
 }
