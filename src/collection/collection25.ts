@@ -5,6 +5,13 @@
 type Order = {status: string, amount: number}
 type Stats = {total: number, count: number, average: number}
 
-export function getOrderStats(orders: Order[]): Stats{
+export function getOrderStats(orders: Order[]): Stats {
+	// Фильтруем завершенные заказы и вычисляем статистику
+	const completedOrders = orders.filter(order => order.status === 'completed');
+	
+	const total = completedOrders.reduce((sum, order) => sum + order.amount, 0);
+	const count = completedOrders.length;
+	const average = count > 0 ? total / count : 0;
 
+	return { total, count, average };
 }
