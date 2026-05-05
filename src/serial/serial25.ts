@@ -12,6 +12,11 @@ export function countBooks(xml: string): number {
 
   // TODO: Добавьте обработчик события открытия тега
   // Если имя тега - 'book', увеличивайте count
+  parser.onopentag = (tag) => {
+    if (tag.name === "book") {
+      count++;
+    }
+  };
   
   parser.write(xml).close();
   return count;
