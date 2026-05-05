@@ -3,7 +3,8 @@
 */
 
 export function unionSets<T>(set1: Set<T>, set2: Set<T>): Set<T> {
-
+	// Создаем новое множество, объединяя элементы обоих множеств
+	return new Set([...set1, ...set2]);
 }
 
 
