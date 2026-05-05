@@ -3,5 +3,9 @@
 */
 
 export function* infiniteSequence(): IterableIterator<number> {
-
+	// Бесконечный генератор чисел, начиная с 0
+	let i = 0;
+	while (true) {
+		yield i++;
+	}
 }
