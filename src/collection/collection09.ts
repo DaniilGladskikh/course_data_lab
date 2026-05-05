@@ -3,7 +3,8 @@
 */
 
 export function findIntersection(arr1: number[], arr2: number[]): number[] {
-  const intersection = new Set<number>();
-
+  // Используем Set для нахождения пересечения двух массивов
+  const set1 = new Set(arr1);
+  const intersection = new Set(arr2.filter(num => set1.has(num)));
   return [...intersection];
 }
