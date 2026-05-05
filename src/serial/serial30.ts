@@ -10,6 +10,10 @@ export function parseSafely(xml: string): { success: boolean; error?: string } {
   const result = { success: true, error: undefined as string | undefined };
   
   // TODO: Добавьте обработчик ошибок, который установит success = false и сохранит сообщение об ошибке
+  parser.onerror = (e) => {
+    result.success = false;
+    result.error = e.message;
+  };
   
   
   try {
