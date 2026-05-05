@@ -3,5 +3,6 @@
 */
 
 export function getUnique(arr: number[]): number[] {
-
+	// Возвращаем массив уникальных элементов с помощью Set
+	return Array.from(new Set(arr));
 }
