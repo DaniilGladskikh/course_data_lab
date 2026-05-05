@@ -3,7 +3,12 @@
 */
 
 export function* filterEven(arr: number[]): IterableIterator<number> {
-
+	// Возвращаем только четные числа из массива
+	for (const num of arr) {
+		if (num % 2 === 0) {
+			yield num;
+		}
+	}
 }
 
 
