@@ -7,7 +7,8 @@ export const obj = {
   b: 2,
   c: 3,
   [Symbol.iterator]() {
-
+    // Итератор возвращает значения свойств объекта, а не ключи
+    return Object.values(this)[Symbol.iterator]();
   }
 };
 
