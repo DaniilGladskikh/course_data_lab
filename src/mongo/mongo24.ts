@@ -35,7 +35,7 @@ export interface BookWithAuthor {
 }
 
 export async function get_books_with_authors(db: Db): Promise<BookWithAuthor[]> {
-    // TODO: Получить книги с информацией об авторах (развернуть массив авторов)
+    // Получить книги с информацией об авторах (развернуть массив авторов)
     return await db.collection("books").aggregate([
         {
             $lookup: {
@@ -45,6 +45,17 @@ export async function get_books_with_authors(db: Db): Promise<BookWithAuthor[]> 
                 as: "authorInfo"
             }
         },
-
-    ]).toArray() as BookWithAuthor[]
+        { $unwind: "$authorInfo" },
+        {
+            $project: {
+                _id: 1,
+                title: 1,
+                genre: 1,
+                pages: 1,
+                authorId: 1,
+                authorName: "$authorInfo.name",
+                authorCountry: "$authorInfo.country"
+            }
+        }
+    ]).toArray() as unknown as BookWithAuthor[]
 }
