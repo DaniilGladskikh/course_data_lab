@@ -12,6 +12,6 @@ export class Course {
 }
 
 export async function find_courses_in_departments(db: Db, departments: string[]): Promise<Course[]> {
-    // TODO: Найти все курсы, принадлежащие любому из указанных отделов
-	return db.collection("courses")
+    // Находим все курсы, принадлежащие любому из указанных отделов
+    return await db.collection("courses").find({ department: { $in: departments } }).toArray() as unknown as Course[]
 }
