@@ -14,6 +14,9 @@ export class Car {
 }
 
 export async function find_cars_in_range(db: Db, minYear: number, maxPrice: number): Promise<Car[]> {
-    // TODO: Найти автомобили с годом выпуска >= minYear и ценой <= maxPrice
-	return db.collection("cars")
+    // Находим автомобили с годом выпуска >= minYear и ценой <= maxPrice
+    return await db.collection("cars").find({
+        year: { $gte: minYear },
+        price: { $lte: maxPrice }
+    }).toArray() as unknown as Car[]
 }
