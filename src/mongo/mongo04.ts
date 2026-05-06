@@ -12,6 +12,6 @@ export class Product {
 }
 
 export async function remove_products_by_category(db: Db, category: string) {
-    // TODO: Удалить все продукты указанной категории
-	await db.collection("products")
+    // Удаляем все продукты указанной категории
+    await db.collection("products").deleteMany({ category })
 }
