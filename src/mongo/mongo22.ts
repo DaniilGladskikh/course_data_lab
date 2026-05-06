@@ -29,15 +29,42 @@ export interface TransactionAnalytics {
 }
 
 export async function get_transaction_analytics(db: Db): Promise<TransactionAnalytics> {
-    // TODO: Получить аналитику транзакций в разных разрезах:
+    // Получить аналитику транзакций в разных разрезах:
     // - totals: общая сумма доходов и расходов
     // - byCategory: сумма по категориям
     // - byType: количество транзакций по типам
-	// Используя $facet
-	const result = await db.collection("transactions").aggregate([
-        
+    // Используя $facet
+    const result = await db.collection("transactions").aggregate([
+        {
+            $facet: {
+                totals: [
+                    {
+                        $group: {
+                            _id: "$type",
+                            totalAmount: { $sum: "$amount" }
+                        }
+                    }
+                ],
+                byCategory: [
+                    {
+                        $group: {
+                            _id: "$category",
+                            totalAmount: { $sum: "$amount" }
+                        }
+                    }
+                ],
+                byType: [
+                    {
+                        $group: {
+                            _id: "$type",
+                            count: { $sum: 1 }
+                        }
+                    }
+                ]
+            }
+        }
     ]).toArray()
 
-    return result[0] as TransactionAnalytics
+    return result[0] as unknown as TransactionAnalytics
 }
 
