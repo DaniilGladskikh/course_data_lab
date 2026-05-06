@@ -12,6 +12,6 @@ export class Student {
 }
 
 export async function find_students_by_grade(db: Db, grade: string): Promise<Student[]> {
-    // TODO: Найти всех студентов с указанным классом
-	return db.collection("students")
+    // Находим всех студентов с указанным классом
+    return await db.collection("students").find({ grade }).toArray() as unknown as Student[]
 }
