@@ -31,8 +31,33 @@ export interface RepeatCustomerStats {
 }
 
 export async function get_repeat_customers(db: Db): Promise<RepeatCustomerStats[]> {
-	// Создайте функцию для анализа клиентской базы с целью выявления повторных покупателей. Функция должна возвращать статистику по каждому клиенту, включая информацию о том, является ли клиент повторным (совершил более одной покупки). Результаты должны быть отсортированы по убыванию общей суммы потраченных средств.
+	// Анализ клиентской базы с целью выявления повторных покупателей
 	return await db.collection("purchases").aggregate([
-
-	]).toArray() as RepeatCustomerStats[]
+		{
+			$group: {
+				_id: "$customerId",
+				purchaseCount: { $sum: 1 },
+				totalSpent: { $sum: "$amount" }
+			}
+		},
+		{
+			$lookup: {
+				from: "customers",
+				localField: "_id",
+				foreignField: "_id",
+				as: "customerInfo"
+			}
+		},
+		{ $unwind: "$customerInfo" },
+		{
+			$project: {
+				_id: 1,
+				customerName: "$customerInfo.name",
+				purchaseCount: 1,
+				totalSpent: 1,
+				isRepeatCustomer: { $gt: ["$purchaseCount", 1] }
+			}
+		},
+		{ $sort: { totalSpent: -1 } }
+	]).toArray() as unknown as RepeatCustomerStats[]
 }
